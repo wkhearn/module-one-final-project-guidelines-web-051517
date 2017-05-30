@@ -1,4 +1,4 @@
-class CLI
+class CLI < ActiveRecord::Base
 
   def welcome
     puts "Welcome, Player 1. Please enter your name"
