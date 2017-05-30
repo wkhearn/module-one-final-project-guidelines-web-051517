@@ -1,0 +1,20 @@
+player_hash {
+  "Lebron James" => 27,
+  "Kyrie Irving" => 26,
+  "Kevin Love" => 9,
+  "JR Smith" => 12,
+  "Tristan Thompson" => 9,
+  "Richard Jefferson" => 2,
+  "Iman Shumpert" => 6,
+  "Mo Williams" => 2,
+  "Draymond Green" => 32,
+  "Klay Thompson" => 14,
+  "Steph Curry" =>17,
+  "Harrison Barnes" => 10,
+  "Festus Ezeli" => 0,
+  "Andre Iguadola" => 4,
+  "Shaun Livingston" => 8,
+  "Anderson Varajeo" => 1,
+  "Marreese Speights" => 0,
+  "Leandro Barbosa" => 3
+}
