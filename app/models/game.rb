@@ -1,16 +1,41 @@
+require "pry"
+
 class Game < ActiveRecord::Base
+  has_many :users
+  has_many :players, through: :users
 
   def welcome
     puts "Welcome to the NBA Boxscore CLI Game!"
 
     puts "Player 1, please enter your name"
     name1 = gets.chomp
-    user1 = User.new(name1)
+    user1 = User.find_or_create_by(name: name1)
 
     puts "Player 2, please enter your name"
     name2 = gets.chomp
-    user2 = User.new(name2)
+    user2 = User.find_or_create_by(name: name2)
   end
+
+  # def user1_turn
+  #   user1 = User.find(User.minimum(:id))
+  #   user1.draft_player
+  #   # player.save
+  # end
+
+  def user1_draft
+    @user = User.find(User.minimum(:id))
+    name = gets.chomp
+    @player = Player.find_by(player_name: name)
+    @user.player << @player
+    draft = Draft.new(user: user, player: player)
+
+  end
+
+  # def user2_turn
+  #   user2 = User.find(User.maximum(:id))
+  #   user2.draft_player
+  #   # player.save
+  # end
 
   # def player_one_turn
   #   "#{name1}, please choose a player."
@@ -61,4 +86,9 @@ class Game < ActiveRecord::Base
   #     #loop back to beginning of end_game method
   #   end
   # end
+
+  def clear_table
+    User.destroy_all
+  end
+
 end

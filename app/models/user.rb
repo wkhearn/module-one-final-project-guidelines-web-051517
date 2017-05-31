@@ -1,15 +1,21 @@
-class User < ActiveRecord::Base
+require "pry"
 
-  attr_accessor :name, :user_team
-  def initialize(name)
-    @name = name
-    @user_team = []
+class User < ActiveRecord::Base
+  belongs_to :game
+  has_many :players
+
+  def draft_player#(player, user)
+    puts "Select a player:"
+    name = gets.chomp #normalize input to match player name casing/syntax
+    drafted_player = Player.find_by(player_name: name) #confirm find method works when iterating through hash
+
+    #Insert into Game table that user_id has drafted player_id
+    drafted_player.user == self
+    binding.pry
+    Game.save #some method to insert user_id and player_id into Game table
+
+
+    # delete player_id from Player Table
+    # player_hash.delete {|player,points| player == name} #confirm delete method works when iterating through hash
   end
-#
-#   def draft_player(name)
-#     name = gets.chomp #normalize input to match player name casing/syntax
-#     drafted_player = player_hash.find {|player,points| player == name} #confirm find method works when iterating through hash
-#     @user_team << drafted_player
-#     player_hash.delete {|player,points| player == name} #confirm delete method works when iterating through hash
-#   end
 end
