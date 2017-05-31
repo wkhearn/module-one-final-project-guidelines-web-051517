@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20170531150727) do
 
   create_table "players", force: :cascade do |t|
     t.string "player_name"
-    t.string "player_points"
+    t.integer "player_points"
   end
 
   create_table "users", force: :cascade do |t|
