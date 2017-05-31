@@ -1,8 +1,8 @@
 require_relative '../config/environment'
 
-puts "This is working!"
+game = Game.new()
 
-# welcome
+game.welcome
 # display_players
 # user.draft_player
 # #do that until all players are gone
