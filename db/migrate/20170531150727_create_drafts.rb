@@ -1,6 +1,6 @@
-class CreateGames < ActiveRecord::Migration[5.1]
+class CreateDrafts < ActiveRecord::Migration[5.1]
   def change
-    create_table :games do |t|
+    create_table :drafts do |t|
       t.references :player
       t.references :user
     end

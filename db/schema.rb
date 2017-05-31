@@ -12,11 +12,11 @@
 
 ActiveRecord::Schema.define(version: 20170531150727) do
 
-  create_table "games", force: :cascade do |t|
+  create_table "drafts", force: :cascade do |t|
     t.integer "player_id"
     t.integer "user_id"
-    t.index ["player_id"], name: "index_games_on_player_id"
-    t.index ["user_id"], name: "index_games_on_user_id"
+    t.index ["player_id"], name: "index_drafts_on_player_id"
+    t.index ["user_id"], name: "index_drafts_on_user_id"
   end
 
   create_table "players", force: :cascade do |t|

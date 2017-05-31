@@ -1,13 +1,13 @@
 require_relative '../config/environment'
 
-game = Game.new()
+draft = Draft.new()
 
-game.welcome
+draft.welcome
 # display_players
-game.user1_turn
-game.user2_turn
+draft.user1_draft
+draft.user2_draft
 # #do that until all players are gone
 # user_team_display
 # play_game
 # end_game?
-game.clear_table
+draft.clear_table

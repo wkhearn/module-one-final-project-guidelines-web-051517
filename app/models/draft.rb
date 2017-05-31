@@ -1,6 +1,6 @@
 require "pry"
 
-class Game < ActiveRecord::Base
+class Draft < ActiveRecord::Base
   has_many :users
   has_many :players, through: :users
 
@@ -23,11 +23,13 @@ class Game < ActiveRecord::Base
   # end
 
   def user1_draft
-    @user = User.find(User.minimum(:id))
-    name = gets.chomp
-    @player = Player.find_by(player_name: name)
-    @user.player << @player
-    draft = Draft.new(user: user, player: player)
+    user = User.find(User.minimum(:id))
+    puts "#{user.name}, please choose a player."
+    player_name = gets.chomp
+    player = Player.find_by(player_name: player_name)
+    binding.pry
+    #user.players << player
+    draft = Draft.create(user_id: user.id, player_id: player.id)
 
   end
 

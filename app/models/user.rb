@@ -1,7 +1,7 @@
 require "pry"
 
 class User < ActiveRecord::Base
-  belongs_to :game
+  belongs_to :draft
   has_many :players
 
   def draft_player#(player, user)
@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
     #Insert into Game table that user_id has drafted player_id
     drafted_player.user == self
     binding.pry
-    Game.save #some method to insert user_id and player_id into Game table
+    #Draft.save #some method to insert user_id and player_id into Game table
 
 
     # delete player_id from Player Table
