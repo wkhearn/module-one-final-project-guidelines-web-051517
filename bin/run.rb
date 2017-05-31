@@ -3,8 +3,9 @@ require_relative '../config/environment'
 draft = Draft.new()
 
 draft.welcome
-# display_players
+draft.display_players
 draft.user1_draft
+draft.display_players
 draft.user2_draft
 draft.game_summary
 # #do that until all players are gone

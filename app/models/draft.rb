@@ -10,10 +10,20 @@ class Draft < ActiveRecord::Base
     puts "Player 1, please enter your name"
     name1 = gets.chomp
     user1 = User.find_or_create_by(name: name1)
+    puts " "
 
     puts "Player 2, please enter your name"
     name2 = gets.chomp
     user2 = User.find_or_create_by(name: name2)
+    puts " "
+  end
+
+  def display_players
+    puts "Here are your available players:"
+    puts "-" * 25
+    puts " "
+    Player.all.map {|player| puts "#{player.player_name}"}
+    puts " "
   end
 
   # def user1_turn
@@ -43,6 +53,9 @@ class Draft < ActiveRecord::Base
   end
 
   def game_summary
+    user1 = User.find(User.minimum(:id))
+    user2 = User.find(User.maximum(:id))
+
     team_1 = Draft.all.select{|draft| draft.user_id == User.minimum(:id)}.map {|draft| draft.player_id}
     team_1_points = team_1.map {|id| Player.all.find(id).player_points}
     team_1_total = team_1_points.sum
@@ -55,11 +68,11 @@ class Draft < ActiveRecord::Base
     puts "Team 2 scored #{team_2_total}."
 
     if team_1_total > team_2_total
-      puts "Player 1 wins!"
+      puts "Player 1 wins! Congrats #{user1.name}!!!!!"
     elsif team_2_total > team_1_total
-      puts "Player 2 wins!"
+      puts "Player 2 wins! Congrats #{user2.name}!!!!!"
     else
-      puts "What happened...?"
+      puts "What happened...? A tie? This isn't soccer..."
     end
   end
 
