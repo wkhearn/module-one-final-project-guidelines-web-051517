@@ -1,27 +1,38 @@
 class CLI < ActiveRecord::Base
 
   def welcome
-    puts "Welcome, Player 1. Please enter your name"
+    puts "Welcome to the NBA Boxscore CLI Game!"
+
+    puts "Player 1, please enter your name"
     name1 = gets.chomp
     user1 = User.new(name1)
 
-    puts "Welcome, Player 2. Please enter your name"
+    puts "Player 2, please enter your name"
     name2 = gets.chomp
     user2 = User.new(name2)
   end
 
+  def player_one_turn
+    "#{name1}, please choose a player."
+    display_players
+  end
+
+  def player_two_turn
+    "#{name2}, choose a player"
+    display_players
+  end
+
 
   def display_players
-    puts "Here are your available players"
     player_hash.each do |player, points|
       puts player
     end
   end
 
   def user_team_display
-    puts "Here is Player 1's team: "
+    puts "#{name1}'s team: "
     user1.user_team.each {|player| puts player.name} #format this output
-    puts "Here is Player 2's team: "
+    puts "#{name2}'s team: "
     user2.user_team.each {|player| puts player.name}
   end
 
