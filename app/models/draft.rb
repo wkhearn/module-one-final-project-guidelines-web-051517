@@ -1,8 +1,8 @@
 require "pry"
 
 class Draft < ActiveRecord::Base
+  has_many :players
   has_many :users
-  has_many :players, through: :users
 
   def welcome
     puts "Welcome to the NBA Boxscore CLI Game!"
@@ -27,10 +27,40 @@ class Draft < ActiveRecord::Base
     puts "#{user.name}, please choose a player."
     player_name = gets.chomp
     player = Player.find_by(player_name: player_name)
-    binding.pry
     #user.players << player
     draft = Draft.create(user_id: user.id, player_id: player.id)
 
+  end
+
+  def user2_draft
+    user = User.find(User.maximum(:id))
+    puts "#{user.name}, please choose a player."
+    player_name = gets.chomp
+    player = Player.find_by(player_name: player_name)
+    #user.players << player
+    draft = Draft.create(user_id: user.id, player_id: player.id)
+
+  end
+
+  def game_summary
+    team_1 = Draft.all.select{|draft| draft.user_id == User.minimum(:id)}.map {|draft| draft.player_id}
+    team_1_points = team_1.map {|id| Player.all.find(id).player_points}
+    team_1_total = team_1_points.sum
+
+    team_2 = Draft.all.select{|draft| draft.user_id == User.maximum(:id)}.map {|draft| draft.player_id}
+    team_2_points = team_2.map {|id| Player.all.find(id).player_points}
+    team_2_total = team_2_points.sum
+
+    puts "Team 1 scored #{team_1_total}."
+    puts "Team 2 scored #{team_2_total}."
+
+    if team_1_total > team_2_total
+      puts "Player 1 wins!"
+    elsif team_2_total > team_1_total
+      puts "Player 2 wins!"
+    else
+      puts "What happened...?"
+    end
   end
 
   # def user2_turn
@@ -91,6 +121,7 @@ class Draft < ActiveRecord::Base
 
   def clear_table
     User.destroy_all
+    Draft.destroy_all
   end
 
 end

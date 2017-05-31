@@ -1,8 +1,8 @@
 require "pry"
 
 class User < ActiveRecord::Base
-  belongs_to :draft
   has_many :players
+  has_many :drafts
 
   def draft_player#(player, user)
     puts "Select a player:"
