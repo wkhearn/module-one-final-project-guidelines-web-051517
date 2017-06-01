@@ -5,7 +5,7 @@ cli = CLI.new()
 cli.clear_table
 cli.welcome
 
-2.times do
+3.times do
   cli.display_players
   cli.user1_draft
   cli.display_players
