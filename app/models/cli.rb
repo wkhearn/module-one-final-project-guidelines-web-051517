@@ -91,22 +91,47 @@ class CLI
   end
 
 
-  # # def end_game?
-  # #   puts "Would you like to play again? Y/N"
-  # #   answer = gets.chomp
-  # #   if answer == "Y"
-  # #     #start game over using loop?
-  # #   elsif answer == "N"
-  # #     break
-  # #   else
-  # #     puts "Please make a valid selection"
-  # #     #loop back to beginning of end_game method
-  # #   end
-  # # end
+  def end_game?
+    puts " "
+    puts "-" * 25
+    puts "Would you like to play again? Y/N"
+    answer = gets.chomp
+    while answer != "Y" || answer != "N"
+      if answer == "Y"
+        cli = CLI.new()
+        cli.cli_play
+      elsif answer == "N"
+        puts "Cya next time!"
+      else
+        puts "Please make a valid selection"
+        answer = gets.chomp
+        #loop back to beginning of end_game method
+      end
+    end
+  end
 
   def clear_table
     User.destroy_all
     Draft.destroy_all
+  end
+
+  def cli_play
+    cli = CLI.new()
+
+    cli.clear_table
+    cli.welcome
+
+    1.times do
+      cli.display_players
+      cli.user1_draft
+      cli.display_players
+      cli.user2_draft
+    end
+
+    # tip-off feature?
+    cli.display_teams
+    cli.game_summary
+    cli.end_game?
   end
 
 end
