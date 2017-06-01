@@ -1,15 +1,20 @@
 require_relative '../config/environment'
 
-draft = Draft.new()
+cli = CLI.new()
 
-draft.welcome
-draft.display_players
-draft.user1_draft
-draft.display_players
-draft.user2_draft
-draft.game_summary
+cli.clear_table
+cli.welcome
+
+2.times do
+  cli.display_players
+  cli.user1_draft
+  cli.display_players
+  cli.user2_draft
+end
+
+cli.display_teams
+cli.game_summary
 # #do that until all players are gone
 # user_team_display
 # play_game
 # end_game?
-draft.clear_table

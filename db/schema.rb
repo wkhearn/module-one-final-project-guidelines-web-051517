@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20170531150727) do
   create_table "players", force: :cascade do |t|
     t.string "player_name"
     t.integer "player_points"
+    t.boolean "available?", default: true
   end
 
   create_table "users", force: :cascade do |t|
