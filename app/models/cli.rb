@@ -1,11 +1,10 @@
 require "pry"
+
 class CLI
 
   def welcome
     puts " "
     puts "Welcome to the NBA Boxscore CLI Game!"
-
-    Player.update_all(:available? => true)
 
     puts "Player 1, please enter your name"
     name1 = gets.chomp.capitalize
@@ -18,10 +17,19 @@ class CLI
     puts " "
   end
 
-  def display_players
-    user1 = User.find(User.minimum(:id))
-    user2 = User.find(User.maximum(:id))
+  def choose_game
+    puts "Which game would you like to choose?"
+    puts "1. Game 1 - Cleveland Cavaliers at Golden State Warriors"
+    puts "2. Game 2 - Cleveland Cavaliers at Golden State Warriors"
+    puts "3. Game 3 - Golden State Warriors at Cleveland Cavaliers"
+    puts "4. Game 4 - Golden State Warriors at Cleveland Cavaliers"
+    puts "5. Game 5 - Cleveland Cavaliers at Golden State Warriors"
+    puts "6. Game 6 - Golden State Warriors at Cleveland Cavaliers"
+    puts "7. Game 7 - Cleveland Cavaliers at Golden State Warriors"
+    load("db/seeds.rb")
+  end
 
+  def display_players
     puts "-" * 25
     puts "Available Players"
     puts "-" * 25
@@ -50,8 +58,7 @@ class CLI
       else
         puts "Please make a valid player selection"
         puts " "
-        cli = CLI.new()
-        cli.user1_draft
+        user1_draft
       end
   end
 
@@ -66,8 +73,7 @@ class CLI
     else
       puts "Please make a valid player selection"
       puts " "
-      cli = CLI.new()
-      cli.user2_draft
+      user2_draft
     end
   end
 
@@ -75,15 +81,15 @@ class CLI
   def display_teams
     user1 = User.find(User.minimum(:id))
     user2 = User.find(User.maximum(:id))
-
-    puts " "
-    puts " "
+    puts "...5...".rjust(20)
     sleep 1
-    puts "...3..."
+    puts "...4...".rjust(20)
     sleep 1
-    puts "...2..."
+    puts "...3...".rjust(20)
     sleep 1
-    puts "...1..."
+    puts "...2...".rjust(20)
+    sleep 1
+    puts "...1...".rjust(20)
     sleep 1
 
     puts " "
@@ -93,7 +99,7 @@ class CLI
       puts "#{player.player_name} -- #{player.player_points} points"
     end
 
-    sleep 2
+    sleep 1
     puts " "
     puts "#{user2.name}'s Team: "
     puts "-" * 25
@@ -101,7 +107,7 @@ class CLI
       puts "#{player.player_name} -- #{player.player_points} points"
     end
     puts " "
-    sleep 2
+    sleep 1
   end
 
   def game_summary
@@ -128,54 +134,50 @@ class CLI
 
 
   def end_game?
-    sleep 2
+    sleep 1
     puts " "
     puts "-" * 25
     puts "Would you like to play again? Y/N"
     answer = gets.chomp.upcase
-    while answer != "Y" || answer != "N"
       if answer == "Y"
         puts " "
-        cli = CLI.new()
-        cli.cli_play
+        cli_play
       elsif answer == "N"
         puts "Cya next time!"
-        binding.pry
-        break
       else
         puts "Please make a valid selection"
-        answer = gets.chomp.upcase
+        end_game?
       end
-    end
   end
 
   def clear_table
     User.destroy_all
     Draft.destroy_all
+    Player.destroy_all
   end
 
   def cli_play
-    cli = CLI.new()
-    cli.clear_table
-    cli.welcome
+    clear_table
+    welcome
+    choose_game
+    sleep 1
     i = 1
     2.times do
       puts " "
       puts "-" * 25
       puts "Beginning of Round #{i}!"
       i += 1
-      cli.display_players
-      cli.user1_draft
-      cli.display_players
-      cli.user2_draft
+      display_players
+      user1_draft
+      display_players
+      user2_draft
     end
-    cli.display_players
+    display_players
     puts "Draft complete, press any key to continue"
     gets.chomp
-    # tip-off feature?
-    cli.display_teams
-    cli.game_summary
-    cli.end_game?
+    display_teams
+    game_summary
+    end_game?
   end
 
 end
