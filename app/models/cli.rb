@@ -7,23 +7,21 @@ class CLI
     Player.update_all(:available? => true)
 
     puts "Player 1, please enter your name"
-    name1 = gets.chomp
+    name1 = gets.chomp.capitalize
     user1 = User.find_or_create_by(name: name1)
     puts " "
 
     puts "Player 2, please enter your name"
-    name2 = gets.chomp
+    name2 = gets.chomp.capitalize
     user2 = User.find_or_create_by(name: name2)
     puts " "
   end
 
   def display_players
-    puts " "
-    puts "Please select a player from below:"
     puts "-" * 25
-    puts " "
     puts "Available Players"
     puts "-" * 25
+    puts " "
     Player.select { |player| if player.available? == true then puts player.player_name end }
     puts " "
 
@@ -41,8 +39,8 @@ class CLI
     puts "-" * 25
     puts "#{user.name}, please choose a player."
     player_name = gets.chomp
-
-    if Player.select {|player| player.player_name.upcase == player_name.upcase}.length > 0
+    if Player.select {|player| player.player_name.upcase == player_name.upcase && player.available? == true}.length > 0
+      # if Player.find_by{|player| player.available? == true}
       player = Player.select {|player| player.player_name.upcase == player_name.upcase}[0]
       draft = Draft.create(user_id: user.id, player_id: player.id)
       Player.update(player.id, :available? => false)
@@ -59,7 +57,7 @@ class CLI
     puts "-" * 25
     puts "#{user.name}, please choose a player."
     player_name = gets.chomp
-    if Player.select {|player| player.player_name.upcase == player_name.upcase}.length > 0
+    if Player.select {|player| player.player_name.upcase == player_name.upcase && player.available? == true}.length > 0
       player = Player.select {|player| player.player_name.upcase == player_name.upcase}[0]
       draft = Draft.create(user_id: user.id, player_id: player.id)
       Player.update(player.id, :available? => false)
@@ -77,12 +75,23 @@ class CLI
     user2 = User.find(User.maximum(:id))
 
     puts " "
+    puts " "
+    sleep 1
+    puts "...3..."
+    sleep 1
+    puts "...2..."
+    sleep 1
+    puts "...1..."
+    sleep 1
+
+    puts " "
     puts "#{user1.name}'s Team: "
     puts "-" * 25
     user1.players.each do |player|
       puts "#{player.player_name} -- #{player.player_points} points"
     end
 
+    sleep 2
     puts " "
     puts "#{user2.name}'s Team: "
     puts "-" * 25
@@ -90,6 +99,7 @@ class CLI
       puts "#{player.player_name} -- #{player.player_points} points"
     end
     puts " "
+    sleep 2
   end
 
   def game_summary
@@ -98,20 +108,25 @@ class CLI
     team_1_total = user1.players.map {|player| player.player_points}.sum
     team_2_total = user2.players.map {|player| player.player_points}.sum
 
-    puts "Team 1 scored #{team_1_total}."
-    puts "Team 2 scored #{team_2_total}."
+    puts "#{user1.name}'s team scored #{team_1_total} points."
+    puts "#{user2.name}'s team scored #{team_2_total} points."
+    sleep 2
 
     if team_1_total > team_2_total
-      puts "Player 1 wins! Congrats #{user1.name}!!!!!"
+      puts " "
+      puts "Congrats #{user1.name}!!!!!"
     elsif team_2_total > team_1_total
-      puts "Player 2 wins! Congrats #{user2.name}!!!!!"
+      puts " "
+      puts "Congrats #{user2.name}!!!!!"
     else
+      puts " "
       puts "What happened...? A tie? This isn't soccer..."
     end
   end
 
 
   def end_game?
+    sleep 2
     puts " "
     puts "-" * 25
     puts "Would you like to play again? Y/N"
@@ -140,7 +155,12 @@ class CLI
     cli = CLI.new()
     cli.clear_table
     cli.welcome
-    3.times do
+    i = 1
+    2.times do
+      puts " "
+      puts "-" * 25
+      puts "Beginning of Round #{i}!"
+      i += 1
       cli.display_players
       cli.user1_draft
       cli.display_players
