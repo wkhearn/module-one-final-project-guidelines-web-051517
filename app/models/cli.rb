@@ -27,23 +27,23 @@ class CLI
     puts "5. Game 5 - Cleveland Cavaliers at Golden State Warriors"
     puts "6. Game 6 - Golden State Warriors at Cleveland Cavaliers"
     puts "7. Game 7 - Cleveland Cavaliers at Golden State Warriors"
-    puts "-" * 25
+    puts "-" * 55
     puts ""
     load("db/seeds.rb")
   end
 
   def display_players
-    puts "-" * 25
+    puts "-" * 30
     puts "Available Players"
-    puts "-" * 25
+    puts "-" * 30
     puts " "
     Player.select { |player| if player.available? == true then puts "#{player.id}. #{player.player_name}" end }
     puts " "
 
     if Player.select{ |player| player.available? == false }.length > 0
-      puts "-" * 25
+      puts "-" * 30
       puts "Drafted Players"
-      puts "-" * 25
+      puts "-" * 30
       Player.select { |player| if player.available? == false then puts "#{player.player_name} - #{player.user.name}" end }
       puts " "
     end
@@ -52,7 +52,7 @@ class CLI
 
   def user1_draft
     user = User.find(User.minimum(:id))
-      puts "-" * 25
+      puts "-" * 30
       puts "#{user.name}, please choose a player."
       player_id = gets.chomp.to_i
       if Player.select { |player| player.id == player_id && player.available? == true }.length > 0
@@ -67,7 +67,7 @@ class CLI
 
   def user2_draft
     user = User.find(User.maximum(:id))
-    puts "-" * 25
+    puts "-" * 30
     puts "#{user.name}, please choose a player."
     player_id = gets.chomp.to_i
     if Player.select { |player| player.id == player_id && player.available? == true }.length > 0
@@ -97,20 +97,20 @@ class CLI
 
     puts " "
     puts "#{user1.name}'s Team: "
-    puts "-" * 25
+    puts "-" * 30
     user1.players.each do |player|
       puts "#{player.player_name} -- #{player.player_points} points"
     end
 
-    sleep 1
+    sleep 1.5
     puts " "
     puts "#{user2.name}'s Team: "
-    puts "-" * 25
+    puts "-" * 30
     user2.players.each do |player|
       puts "#{player.player_name} -- #{player.player_points} points"
     end
     puts " "
-    sleep 1
+    sleep 1.5
   end
 
   def game_summary
@@ -121,14 +121,14 @@ class CLI
 
     puts "#{user1.name}'s team scored #{team_1_total} points."
     puts "#{user2.name}'s team scored #{team_2_total} points."
-    sleep 2
+    sleep 1.5
 
     if team_1_total > team_2_total
       puts " "
-      puts "Congrats #{user1.name}!!!!!"
+      puts "#{user1.name} won. Congrats #{user1.name}!!!!!"
     elsif team_2_total > team_1_total
       puts " "
-      puts "Congrats #{user2.name}!!!!!"
+      puts "#{user2.name} won. Congrats #{user2.name}!!!!!"
     else
       puts " "
       puts "What happened...? A tie? This isn't soccer..."
@@ -137,9 +137,9 @@ class CLI
 
 
   def end_game?
-    sleep 1
+    sleep 1.5
     puts " "
-    puts "-" * 25
+    puts "-" * 30
     puts "Would you like to play again? Y/N"
     answer = gets.chomp.upcase
       if answer == "Y"
@@ -147,9 +147,9 @@ class CLI
         cli_play
       elsif answer == "N"
         puts " "
-        puts "-" * 25
+        puts "-" * 30
         puts "Cya next time!"
-        puts "-" * 25
+        puts "-" * 30
         puts " "
       else
         puts "Please make a valid selection"
@@ -168,11 +168,11 @@ class CLI
     clear_table
     welcome
     choose_game
-    sleep 1
+    sleep 1.5
     i = 1
-    2.times do
+    5.times do
       puts " "
-      puts "-" * 25
+      puts "-" * 30
       puts "Beginning of Round #{i}!"
       i += 1
       display_players
