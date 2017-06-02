@@ -1,3 +1,4 @@
+require "pry"
 class CLI
 
   def welcome
@@ -8,12 +9,12 @@ class CLI
 
     puts "Player 1, please enter your name"
     name1 = gets.chomp.capitalize
-    user1 = User.find_or_create_by(name: name1)
+    user1 = User.create(name: name1) #find or create unnecessary if we're clearing the user table
     puts " "
 
     puts "Player 2, please enter your name"
     name2 = gets.chomp.capitalize
-    user2 = User.find_or_create_by(name: name2)
+    user2 = User.create(name: name2)
     puts " "
   end
 
@@ -25,7 +26,7 @@ class CLI
     Player.select { |player| if player.available? == true then puts player.player_name end }
     puts " "
 
-    if Player.select{|player| player.available? == false}.length > 0
+    if Player.select{ |player| player.available? == false }.length > 0
       puts "-" * 25
       puts "Drafted Players"
       puts "-" * 25
@@ -39,9 +40,8 @@ class CLI
     puts "-" * 25
     puts "#{user.name}, please choose a player."
     player_name = gets.chomp
-    if Player.select {|player| player.player_name.upcase == player_name.upcase && player.available? == true}.length > 0
-      # if Player.find_by{|player| player.available? == true}
-      player = Player.select {|player| player.player_name.upcase == player_name.upcase}[0]
+    if Player.select { |player| player.player_name.upcase == player_name.upcase && player.available? == true }.length > 0
+      player = Player.select { |player| player.player_name.upcase == player_name.upcase }[0]
       draft = Draft.create(user_id: user.id, player_id: player.id)
       Player.update(player.id, :available? => false)
     else
@@ -57,8 +57,8 @@ class CLI
     puts "-" * 25
     puts "#{user.name}, please choose a player."
     player_name = gets.chomp
-    if Player.select {|player| player.player_name.upcase == player_name.upcase && player.available? == true}.length > 0
-      player = Player.select {|player| player.player_name.upcase == player_name.upcase}[0]
+    if Player.select { |player| player.player_name.upcase == player_name.upcase && player.available? == true }.length > 0
+      player = Player.select { |player| player.player_name.upcase == player_name.upcase }[0]
       draft = Draft.create(user_id: user.id, player_id: player.id)
       Player.update(player.id, :available? => false)
     else
@@ -105,8 +105,8 @@ class CLI
   def game_summary
     user1 = User.find(User.minimum(:id))
     user2 = User.find(User.maximum(:id))
-    team_1_total = user1.players.map {|player| player.player_points}.sum
-    team_2_total = user2.players.map {|player| player.player_points}.sum
+    team_1_total = user1.players.map { |player| player.player_points }.sum
+    team_2_total = user2.players.map { |player| player.player_points }.sum
 
     puts "#{user1.name}'s team scored #{team_1_total} points."
     puts "#{user2.name}'s team scored #{team_2_total} points."
@@ -130,7 +130,7 @@ class CLI
     puts " "
     puts "-" * 25
     puts "Would you like to play again? Y/N"
-    answer = gets.chomp
+    answer = gets.chomp.upcase
     while answer != "Y" || answer != "N"
       if answer == "Y"
         puts " "
@@ -138,10 +138,11 @@ class CLI
         cli.cli_play
       elsif answer == "N"
         puts "Cya next time!"
-        return
+        binding.pry
+        break
       else
         puts "Please make a valid selection"
-        answer = gets.chomp
+        answer = gets.chomp.upcase
       end
     end
   end
@@ -166,6 +167,8 @@ class CLI
       cli.display_players
       cli.user2_draft
     end
+    puts "Draft complete, press any key to continue"
+    gets.chomp
     # tip-off feature?
     cli.display_teams
     cli.game_summary
