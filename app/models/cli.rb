@@ -157,6 +157,7 @@ class CLI
   end
 
   def cli_play
+    clean_database
     clear_table
     welcome
     choose_game
@@ -178,6 +179,12 @@ class CLI
     display_teams
     game_summary
     end_game?
+  end
+
+  def clean_database
+    # File.delete("db/development.db")
+    system "rake db:migrate VERSION=0"
+    system "rake db:migrate"
   end
 
 end
