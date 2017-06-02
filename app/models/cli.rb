@@ -5,7 +5,7 @@ class CLI
   def welcome
     system "clear"
     puts " "
-    puts "Welcome to the NBA Boxscore CLI Game!"
+    puts "Welcome to the NBA Box Score Fantasy Game!"
 
     puts "Player 1, please enter your name"
     name1 = gets.chomp.capitalize
