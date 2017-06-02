@@ -19,48 +19,50 @@ class CLI
   end
 
   def display_players
+    user1 = User.find(User.minimum(:id))
+    user2 = User.find(User.maximum(:id))
+
     puts "-" * 25
     puts "Available Players"
     puts "-" * 25
     puts " "
-    Player.select { |player| if player.available? == true then puts player.player_name end }
+    Player.select { |player| if player.available? == true then puts "#{player.id}. #{player.player_name}" end }
     puts " "
 
     if Player.select{ |player| player.available? == false }.length > 0
       puts "-" * 25
       puts "Drafted Players"
       puts "-" * 25
-      Player.select { |player| if player.available? == false then puts player.player_name end }
+      Player.select { |player| if player.available? == false then puts "#{player.player_name} - #{player.user.name}" end }
       puts " "
     end
   end
 
+
   def user1_draft
     user = User.find(User.minimum(:id))
-    puts "-" * 25
-    puts "#{user.name}, please choose a player."
-    player_name = gets.chomp
-    if Player.select { |player| player.player_name.upcase == player_name.upcase && player.available? == true }.length > 0
-      player = Player.select { |player| player.player_name.upcase == player_name.upcase }[0]
-      draft = Draft.create(user_id: user.id, player_id: player.id)
-      Player.update(player.id, :available? => false)
-    else
-      puts "Please make a valid player selection"
-      puts " "
-      cli = CLI.new()
-      cli.user1_draft
-    end
+      puts "-" * 25
+      puts "#{user.name}, please choose a player."
+      player_id = gets.chomp.to_i
+      if Player.select { |player| player.id == player_id && player.available? == true }.length > 0
+        draft = Draft.create(user_id: user.id, player_id: player_id)
+        Player.update(player_id, :available? => false)
+      else
+        puts "Please make a valid player selection"
+        puts " "
+        cli = CLI.new()
+        cli.user1_draft
+      end
   end
 
   def user2_draft
     user = User.find(User.maximum(:id))
     puts "-" * 25
     puts "#{user.name}, please choose a player."
-    player_name = gets.chomp
-    if Player.select { |player| player.player_name.upcase == player_name.upcase && player.available? == true }.length > 0
-      player = Player.select { |player| player.player_name.upcase == player_name.upcase }[0]
-      draft = Draft.create(user_id: user.id, player_id: player.id)
-      Player.update(player.id, :available? => false)
+    player_id = gets.chomp.to_i
+    if Player.select { |player| player.id == player_id && player.available? == true }.length > 0
+      draft = Draft.create(user_id: user.id, player_id: player_id)
+      Player.update(player_id, :available? => false)
     else
       puts "Please make a valid player selection"
       puts " "
@@ -167,6 +169,7 @@ class CLI
       cli.display_players
       cli.user2_draft
     end
+    cli.display_players
     puts "Draft complete, press any key to continue"
     gets.chomp
     # tip-off feature?
