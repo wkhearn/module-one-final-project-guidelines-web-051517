@@ -59,6 +59,8 @@ class CLI
         draft = Draft.create(user_id: user.id, player_id: player_id)
         Player.update(player_id, :available? => false)
       else
+        puts " "
+        puts "-" * 30
         puts "Please make a valid player selection"
         puts " "
         user1_draft
