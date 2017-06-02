@@ -51,5 +51,10 @@ case answer
       Player.create(row.to_hash)
     end
   else
-    "Please make a valid game selection"
+    puts ""
+    puts "Please make a valid game selection"
+    puts ""
+    sleep 1
+    cli = CLI.new()
+    cli.choose_game
 end
