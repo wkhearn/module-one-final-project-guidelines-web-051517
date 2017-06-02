@@ -174,7 +174,7 @@ class CLI
       user2_draft
     end
     display_players
-    puts "Draft complete, press any key to continue"
+    puts "Draft complete, press 'Enter' key to continue"
     gets.chomp
     display_teams
     game_summary
