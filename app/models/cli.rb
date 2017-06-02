@@ -3,6 +3,7 @@ require "pry"
 class CLI
 
   def welcome
+    system "clear"
     puts " "
     puts "Welcome to the NBA Boxscore CLI Game!"
 
@@ -26,6 +27,8 @@ class CLI
     puts "5. Game 5 - Cleveland Cavaliers at Golden State Warriors"
     puts "6. Game 6 - Golden State Warriors at Cleveland Cavaliers"
     puts "7. Game 7 - Cleveland Cavaliers at Golden State Warriors"
+    puts "-" * 25
+    puts ""
     load("db/seeds.rb")
   end
 
@@ -143,7 +146,11 @@ class CLI
         puts " "
         cli_play
       elsif answer == "N"
+        puts " "
+        puts "-" * 25
         puts "Cya next time!"
+        puts "-" * 25
+        puts " "
       else
         puts "Please make a valid selection"
         end_game?
